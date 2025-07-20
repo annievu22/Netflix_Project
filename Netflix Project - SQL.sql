@@ -19,7 +19,7 @@ SELECT
    COUNT(*),
    RANK() OVER( PARTITION BY type ORDER BY COUNT(*) DESC) AS ranking
 FROM netflix
-GROUP BY 1,2 #GROUP BY type, rating
+GROUP BY 1,2 
 ) 
 AS t1
 
