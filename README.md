@@ -2,7 +2,7 @@
 ![Language](https://img.shields.io/badge/Language-SQL-blue)
 ![Power BI](https://img.shields.io/badge/Visualization-PowerBI-yellow)
 ![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
-![Data](https://img.shields.io/badge/Data-Netflix-informational)
+![Data](https://img.shields.io/badge/Data-Netflix-red)
 
 > A structured SQL-based analysis of Netflix’s movie and TV show catalog, uncovering content trends, audience targeting patterns, and global distribution insights. Visualized with Power BI for interactive storytelling.
 
