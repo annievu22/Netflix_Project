@@ -10,9 +10,9 @@
 
 ## 1. Overview
 
-This project explores Netflix's global content library using SQL and Power BI to reveal insights about content types, genres, countries, and production trends. The analysis supports data-driven recommendations for content curation, audience engagement, and catalog expansion.
+This project analyzes Netflix’s global content catalog using SQL and Power BI to extract key patterns in content types, genres, and geographic distribution. It focuses on understanding production trends, audience targeting strategies, and platform diversity.
 
-The dataset was cleaned and analyzed using SQL, covering release years, ratings, directors, durations, and keyword patterns in descriptions. The results were then visualized in Power BI for easier stakeholder interpretation.
+The data was cleaned and explored using SQL with advanced queries, covering release timelines, content duration, rating frequency, and keyword indicators. Final results were visualized in Power BI to support content strategy and global market expansion.
 
 ---
 
