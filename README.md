@@ -29,15 +29,7 @@ As Netflix scales globally, it faces challenges in balancing content variety, re
 > - How has content changed over the last 5 years?
 > - What themes, actors, or directors dominate the catalog?
 
-### 2.2. Goal of the Dashboard
-
-To create a platform-level dashboard that:
-- Visualizes content trends across types, genres, and countries
-- Tracks new content additions by year
-- Helps identify viewer-friendly genres and underrepresented areas
-- Flags problematic content through description-based keyword tagging
-
-### 2.3. Business Impact & Insights
+### 2.2. Business Impact & Insights
 
 - TV Shows are less frequent than Movies but show increasing additions in recent years  
 - The most common ratings differ between Movies and TV Shows, guiding audience segmentation  
@@ -197,7 +189,9 @@ GROUP BY category;
 
 ---
 
-## 6. Power BI Dashboard
+## 6. Power BI Dashboard:
+
+- This Power BI dashboard helps uncover global content trends, genre distributions, and audience targeting patterns through interactive filtering and drill-down visualizations.
 
 🔗 [View Full Dashboard on GitHub](https://github.com/annievu22/Netflix_Project/blob/main/Netflix%20Project%20-%20PowerBI%20Snapshot.png)
 
