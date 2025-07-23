@@ -31,11 +31,11 @@ As Netflix scales globally, it faces challenges in balancing content variety, re
 
 ### 2.2. Business Impact & Insights
 
-- TV Shows are less frequent than Movies but show increasing additions in recent years  
-- The most common ratings differ between Movies and TV Shows, guiding audience segmentation  
-- The United States contributes the highest volume of content, followed by India and the UK  
-- "Documentaries" and "Comedies" are dominant genres, especially among Movies  
-- Content containing sensitive keywords like “kill” and “violence” were flagged, aiding content moderation  
+- TV Shows are less frequent than Movies, but show increasing additions in recent years. 
+- The most common ratings differ between Movies and TV Shows, guiding audience segmentation.  
+- The United States contributes the highest volume of content, followed by India and the UK.  
+- "Documentaries" and "Comedies" are dominant genres, especially among Movies.  
+- Content containing sensitive keywords like “kill” and “violence” was flagged, aiding content moderation. 
 
 ---
 
@@ -46,13 +46,12 @@ The dataset was downloaded from Kaggle and imported into MySQL for SQL querying.
 ### 🔗 Dataset Links
 
 - **Kaggle Source:**  
-  Open Netflix title metadata (movies & shows) curated by Shivam Bansal  
   [🌐 View on Kaggle](https://www.kaggle.com/datasets/shivamb/netflix-shows?resource=download)
 
 - **Google Drive Download:**  
   [📁 View Dataset (Google Drive)](https://drive.google.com/file/d/1_mxh7A1TyIHZ6YOCD4Y5BYAPnjx7ilCL/view?usp=sharing)
 
-### 3.1. Table Schema
+### 📝 Table Schema
 
 ```sql
 CREATE TABLE netflix (
