@@ -1,5 +1,5 @@
 # 🎬 Netflix Movies and TV Shows Data Analysis Project
-![SQL](https://img.shields.io/badge/SQL-MySQL-blue)
+![Language](https://img.shields.io/badge/Language-MySQL-blue)
 ![Power BI](https://img.shields.io/badge/Visualization-PowerBI-yellow)
 ![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
 ![Data](https://img.shields.io/badge/Data-Netflix-informational)
