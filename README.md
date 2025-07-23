@@ -1,4 +1,3 @@
-````markdown
 # 🎬 Netflix Movies and TV Shows Data Analysis Project
 ![SQL](https://img.shields.io/badge/SQL-MySQL-blue)
 ![Power BI](https://img.shields.io/badge/Visualization-PowerBI-yellow)
