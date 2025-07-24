@@ -71,62 +71,71 @@ CREATE TABLE netflix (
 ````
 
 ---
+## 4. Methodology & SQL Analysis
 
-## 4. Tech Stack & Methodology
+This section outlines the complete end-to-end process of cleaning, transforming, and analyzing Netflix metadata using MySQL. Each query block directly addresses a specific business question to uncover actionable content insights.
 
-### 4.1. Tech Stack
+### 4.1. Data Cleaning
 
-* **SQL (MySQL Workbench):** Main tool for data wrangling and business question answering using window functions, CTEs, and string manipulation
-* **Power BI:** Used to design interactive visuals for content trends, actor frequency, and genre insights
-
-### 4.2. Methodology
-
-**a. Data Cleaning & Preparation:**
-
-* Converted `date_added` to SQL `DATE` format using `STR_TO_DATE()`
-* Used `UNNEST(STRING_TO_ARRAY(...))` to split genres and country columns for frequency analysis
-* Handled NULL values in directors and descriptions
-
-**b. SQL Query Design:**
-
-* Applied aggregation functions to calculate content counts by type, rating, and year
-* Used `RANK()` to find top-rated and most frequent attributes
-* Extracted durations for TV Shows and flagged those with more than 5 seasons
-* Used `LIKE` and `CASE WHEN` logic to categorize content based on keywords like "kill" or "violence"
-
-**c. Keyword-Based Content Tagging:**
-
-* Built logic to categorize content as “Good” or “Bad” based on presence of harmful descriptors
-* Applied `CASE` statements inside `WITH` CTE to flag and count such content
-
-**d. Visualization Design:**
-
-* Developed a Power BI dashboard that includes:
-
-  * Pie charts for content type breakdown
-  * Bar charts for country and rating distributions
-  * Line charts for yearly growth
-  * Donut charts for keyword-based content flagging
-
----
-
-## 5. SQL Data Preparation & Analysis
-
-Here are some of the key queries used in analysis, with explanations:
-
-* **Content Type Distribution:**
+* **Convert string-based `date_added` to DATE format** → Ensures consistency for time-based filtering.
 
 ```sql
-SELECT 
-   type,
-   COUNT(*) AS total_content
+SELECT *, STR_TO_DATE(date_added, '%M %d, %Y') AS formatted_date
+FROM netflix;
+```
+
+* **Extract year from `date_added` using `EXTRACT()`** → Enables analysis of content trends over time.
+
+```sql
+SELECT EXTRACT(YEAR FROM STR_TO_DATE(date_added, '%M %d, %Y')) AS year
+FROM netflix;
+```
+
+* **Handle missing directors** → Flags entries missing critical metadata for optional exclusion or separate handling.
+
+```sql
+SELECT * FROM netflix
+WHERE director IS NULL;
+```
+
+* **Standardize `country`, `listed_in`, and `casts` fields** → Converts multi-value string fields into row-wise arrays to support aggregation.
+
+```sql
+SELECT UNNEST(STRING_TO_ARRAY(country, ',')) AS separated_countries
+FROM netflix;
+```
+
+```sql
+SELECT UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre
+FROM netflix;
+```
+
+```sql
+SELECT UNNEST(STRING_TO_ARRAY(casts, ',')) AS actors
+FROM netflix;
+```
+
+* **Extract number of seasons from string `duration` using `SUBSTRING_INDEX()`** → Parses numerical duration data for conditional logic (e.g., more than 5 seasons).
+
+```sql
+SELECT SUBSTRING_INDEX(duration, ' ', 1) AS seasons
+FROM netflix
+WHERE type = 'TV Show';
+```
+
+> These steps ensured the dataset was structured, clean, and compatible with advanced SQL queries and dashboard visualization.
+
+### 4.2. Exploratory Data Analysis (EDA)
+
+* **Content Distribution by Type** → Counts how many entries are Movies vs. TV Shows.
+
+```sql
+SELECT type, COUNT(*) AS total_content
 FROM netflix
 GROUP BY type;
 ```
 
-→ Shows how many Movies vs. TV Shows are in the catalog.
-
-* **Most Common Rating by Type:**
+* **Most Common Rating per Type** → Identifies the most popular content ratings for each type.
 
 ```sql
 SELECT type, rating
@@ -139,9 +148,14 @@ FROM (
 WHERE ranking = 1;
 ```
 
-→ Identifies the most frequently used content rating for each content type.
+* **Movies Released in 2020** → Filters for all movies released in a specified year.
 
-* **Top Countries by Content Volume:**
+```sql
+SELECT * FROM netflix
+WHERE type = 'Movie' AND release_year = 2020;
+```
+
+* **Top 5 Countries by Content Volume** → Identifies where most of Netflix’s content originates.
 
 ```sql
 SELECT
@@ -153,22 +167,98 @@ ORDER BY total_content DESC
 LIMIT 5;
 ```
 
-→ Explores where most of Netflix’s content originates.
-
-* **Shows with More Than 5 Seasons:**
+* **Longest Movie on the Platform** → Finds the movie with the maximum duration.
 
 ```sql
-SELECT *
-FROM netflix
+SELECT * FROM netflix
 WHERE 
-   type = 'TV Show'
+   type = 'Movie'
    AND
-   SUBSTRING_INDEX(duration, ' ', 1) >= 6;
+   duration = (SELECT MAX(duration) FROM netflix);
 ```
 
-→ Filters out long-format shows.
+* **Content Added in the Last 5 Years** → Filters for recently added content.
 
-* **Categorizing Content by Keywords:**
+```sql
+SELECT *, STR_TO_DATE(date_added, '%M %d, %Y') AS formatted_date
+FROM netflix
+WHERE STR_TO_DATE(date_added, '%M %d, %Y') >= CURRENT_DATE - INTERVAL 5 YEAR;
+```
+
+* **Content by Specific Director ('Rajiv Chilaka')** → Retrieves shows or movies directed by a given name.
+
+```sql
+SELECT * FROM netflix
+WHERE director LIKE '%Rajiv Chilaka%';
+```
+
+* **TV Shows with More Than 5 Seasons** → Identifies long-running shows.
+
+```sql
+SELECT * FROM netflix
+WHERE type = 'TV Show' AND SUBSTRING_INDEX(duration, ' ', 1) >= 6;
+```
+
+* **Content Count by Genre** → Explores genre popularity.
+
+```sql
+SELECT UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
+       COUNT(show_id) AS total_content
+FROM netflix
+GROUP BY genre;
+```
+
+* **Average Annual Content from United States** → Evaluates U.S. content contribution over time.
+
+```sql
+SELECT
+   EXTRACT(YEAR FROM STR_TO_DATE(date_added, '%M %d, %Y')) AS year,
+   COUNT(*) AS yearly_content,
+   COUNT(*) / (SELECT COUNT(*) FROM netflix WHERE country = 'United States') * 100 AS avg_content_per_year
+FROM netflix
+WHERE country = 'United States'
+GROUP BY year
+ORDER BY avg_content_per_year DESC
+LIMIT 5;
+```
+
+* **All Movies Tagged as Documentaries** → Filters movies by theme.
+
+```sql
+SELECT * FROM netflix
+WHERE type = 'Movie' AND listed_in LIKE '%Documentaries%';
+```
+
+* **Content Without a Director** → Surfaces records with missing director data.
+
+```sql
+SELECT * FROM netflix
+WHERE director IS NULL;
+```
+
+* **Salman Khan's Appearances (Past 11 Years)** → Tracks actor-specific content.
+
+```sql
+SELECT * FROM netflix
+WHERE type = 'Movie'
+  AND casts LIKE '%Salman Khan%'
+  AND release_year > EXTRACT(YEAR FROM CURRENT_DATE) - 11;
+```
+
+* **Top 10 U.S. Actors by Appearance Count** → Reveals the most-featured U.S.-based actors.
+
+```sql
+SELECT 
+   UNNEST(STRING_TO_ARRAY(casts, ',')) AS actors,
+   COUNT(*) AS total_content
+FROM netflix
+WHERE country LIKE '%United States%'
+GROUP BY actors
+ORDER BY total_content DESC
+LIMIT 10;
+```
+
+* **Flagging Harmful vs. Safe Content** → Categorizes content for ethical tagging and moderation.
 
 ```sql
 WITH new_table AS (
@@ -184,11 +274,10 @@ FROM new_table
 GROUP BY category;
 ```
 
-→ Helps moderation teams identify potentially sensitive or violent content.
+> Together, these queries supported a comprehensive analysis of Netflix’s catalog and powered the Power BI dashboard for stakeholder reporting.
 
----
 
-## 6. Power BI Dashboard:
+### 4.3.  Power BI Dashboard Design
 
 - This Power BI dashboard helps uncover global content trends, genre distributions, and audience targeting patterns through interactive filtering and drill-down visualizations.
 
@@ -222,18 +311,18 @@ These visuals support strategic decision-making for content sourcing, regional t
 
 ---
 
-## 7. Final Conclusion
+## 5. Final Conclusion
 
 This project demonstrates the power of structured SQL analysis and Power BI storytelling in understanding a massive digital content platform like Netflix. By dissecting ratings, genres, countries, and time trends, we generated insights relevant to content curation, platform strategy, and audience engagement.
 
-From a business and policy perspective, the project offers actionable insights such as:
+**Key business insights:**
 
 * Content distribution leans heavily toward Movies, but TV Shows are rising
 * Rating trends inform which demographics are being served
 * The U.S. dominates content creation, but there's a need for localized variety
 * Description-based tagging offers opportunities for smarter filtering and safety monitoring
 
-In future iterations, this project could be enhanced by:
+**Future enhancement:**
 
 * Integrate watch-time or engagement metrics for deeper audience insights
 * Add NLP sentiment analysis on description text
