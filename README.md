@@ -4,7 +4,7 @@
 ![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
 ![Data](https://img.shields.io/badge/Data-Netflix-red)
 
-> A Python and Power BI analysis of Netflix content, highlighting genre distributions, audience rating patterns, and global content trends.
+> A SQL and Power BI analysis of Netflix content, highlighting genre distributions, audience rating patterns, and global content trends.
 
 ---
 
