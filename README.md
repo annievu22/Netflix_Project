@@ -281,7 +281,7 @@ GROUP BY category;
 
 - This Power BI dashboard helps uncover global content trends, genre distributions, and audience targeting patterns through interactive filtering and drill-down visualizations.
 
-🔗 [View Full Dashboard on Power BI]([https://project.novypro.com/JbmD6y])
+🔗 [View Full Dashboard on Power BI](https://project.novypro.com/JbmD6y)
 
 ### Dashboard Snapshot
 
