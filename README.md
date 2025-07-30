@@ -281,7 +281,7 @@ GROUP BY category;
 
 - This Power BI dashboard helps uncover global content trends, genre distributions, and audience targeting patterns through interactive filtering and drill-down visualizations.
 
-🔗 [View Full Dashboard on GitHub](https://github.com/annievu22/Netflix_Project/blob/main/Netflix%20Project%20-%20PowerBI%20Snapshot.png)
+🔗 [View Full Dashboard on Power BI]([https://project.novypro.com/JbmD6y])
 
 ### Dashboard Snapshot
 
