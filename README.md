@@ -276,8 +276,9 @@ GROUP BY category;
 
 > Together, these queries supported a comprehensive analysis of Netflix’s catalog and powered the Power BI dashboard for stakeholder reporting.
 
+---
 
-### 4.3.  Power BI Dashboard Design
+## 5. Power BI Dashboard Design
 
 - This Power BI dashboard helps uncover global content trends, genre distributions, and audience targeting patterns through interactive filtering and drill-down visualizations.
 
@@ -311,7 +312,7 @@ These visuals support strategic decision-making for content sourcing, regional t
 
 ---
 
-## 5. Final Conclusion
+## 6. Final Conclusion
 
 This project demonstrates the power of structured SQL analysis and Power BI storytelling in understanding a massive digital content platform like Netflix. By dissecting ratings, genres, countries, and time trends, we generated insights relevant to content curation, platform strategy, and audience engagement.
 
