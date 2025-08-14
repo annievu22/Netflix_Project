@@ -288,6 +288,8 @@ GROUP BY category;
 
 ![Netflix Power BI Dashboard](https://github.com/annievu22/Netflix_Project/blob/main/Netflix%20Project%20-%20PowerBI%20Snapshot.png)
 
+---
+
 ### Walkthrough of Key Visuals:
 
 * **Content Type Distribution (Pie Chart):**
